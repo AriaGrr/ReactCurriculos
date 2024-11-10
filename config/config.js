@@ -1,3 +1,4 @@
+// npm install firebase
 // Import the functions you need from the SDKs you need
 
 // import { initializeApp } from "firebase/app";
@@ -17,8 +18,6 @@ const firebaseConfig = {
     appId: "1:956135790837:web:04af8f002722f834568dbc",
     // measurementId: "G-BMB3YDE5TH"
 };
-
-
 
 // Initialize Firebase
 if (!firebase.apps.length) {
