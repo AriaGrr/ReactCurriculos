@@ -9,15 +9,16 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; //novas
-import {createTopTabNavigator} from '@react-navigation/top-tabs'; //novas
+// import {createTabNavigator} from '@react-navigation/tabs'; //novas
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createStackNavigator } from '@react-navigation/stack'; //novas
 import { Card, Paragraph, Title } from 'react-native-paper';
 
-// const TabBot = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
 
-const Tab = createTopTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 const Stack = createStackNavigator();
 
@@ -71,7 +72,7 @@ class Login extends React.Component {
       if (senha != null) {
         if (senha == this.state.senha) {
           alert('Logado!!!');
-          this.props.navigation.navigate('Filmes');
+          this.props.navigation.navigate('Curriculos');
         } else {
           alert('Senha Incorreta!');
         }
