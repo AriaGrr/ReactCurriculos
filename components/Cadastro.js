@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import {
   View,
   TextInput,
   Button,
-  Alert,
-  DatePickerAndroid,
-  Text,
-  TouchableOpacity,
 } from 'react-native';
 import firebase from '../config/config';
 import styles from './Styles';
-// import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-// import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
 class Cadastro extends React.Component {
   constructor(props) {
@@ -21,20 +15,33 @@ class Cadastro extends React.Component {
     this.senha = 0;
   }
 
-  salvar() {
-    
-    firebase.database().ref('/usuarios').push({
-      nome: this.nome,
-      username: this.username,
-      senha: this.senha,
-      foto: null,
-      email: "",
-      sobre: "",
-      curso: "",
-      semestre: 0,
-      interesse: "",
+salvar() {
+    // Compara o usuario que quer cadastrar com os usuarios do banco pra ver se já existe
+    const user = this.username;
+    const userRef = firebase.database().ref('usuarios').orderByChild('username').equalTo(user);
+    userRef.once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        // Usuário já existe
+        alert(
+          'Usuário já existe',
+          'Por favor, escolha outro nome de usuário.'
+        );
+      } else {
+        // Criar o usuário
+        firebase.database().ref('/usuarios').push({
+          nome: this.nome,
+          username: this.username,
+          senha: this.senha,
+          foto: null,
+          email: '',
+          sobre: '',
+          curso: '',
+          semestre: 0,
+          interesse: '',
+        });
+        alert('Usuario cadastrado!');
+      }
     });
-    alert('Usuario cadastrado!');
   }
 
   render() {
@@ -70,49 +77,5 @@ class Cadastro extends React.Component {
     );
   }
 }
-// const Cadastro = () => {
-// const [nome, setNome] = useState('');
-// const [email, setEmail] = useState('');
-// const [password, setPassword] = useState('');
-
-// const handleSignUp = async () => {
-//   try {
-//     const auth = getAuth(firebase);
-//     await createUserWithEmailAndPassword(auth, email, password).then(
-//       (userCredential) => {
-//         const user = userCredential.user;
-//         console.log('Usuario criado: ', user);
-
-//         // // Obter uma referência ao banco de dados Firestore
-//         const db = getFirestore(firebase);
-
-//         // Criar uma referência ao documento do usuário
-//         const userRef = doc(db, 'users', user.uid);
-
-//         // Setar os dados do usuário
-//         setDoc(userRef, {
-//           nome: nome,
-//           idade: "",
-//           foto: null,
-//           sobre: "",
-//         })
-//           .then(() => {
-//             console.log('Dados do usuário salvos com sucesso');
-//           })
-//           .catch((error) => {
-//             console.error('Erro ao salvar dados do usuário:', error);
-//           });
-
-//         // Navegar para a tela desejada após o cadastro
-//         this.props.navigation.navigate('Login');
-//       }
-//     );
-//     // ... (restante do tratamento de erros)
-//   } catch (error) {
-//     // ... (tratamento de erros)
-//     console.error('Erro ao salvar o usuario:', error);
-//     Alert.alert('Erro ao salvar dados', 'Por favor, tente novamente mais tarde.');
-//   }
-// };
 
 export default Cadastro;
