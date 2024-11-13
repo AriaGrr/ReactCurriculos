@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import firebase from '../config/config';
 import UserCard from './Card';
 import styles from './Styles';

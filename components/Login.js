@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
 import { View, TextInput, Button, Text, TouchableOpacity } from 'react-native';
 import firebase from '../config/config';
 import styles from './Styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Cadastro from './Cadastro';
 import * as Haptics from 'expo-haptics';
 
 // Aqui vai ser feito o login, e o cadastro. Porém será exibido todos os curriculos e a pessoa poderá selecionar para logar e na aba de login terá a opção de cadastro.

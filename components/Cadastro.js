@@ -3,7 +3,6 @@ import {
   View,
   TextInput,
   Button,
-  Text,
 } from 'react-native';
 import firebase from '../config/config';
 import styles from './Styles';

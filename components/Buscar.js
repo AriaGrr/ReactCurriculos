@@ -4,7 +4,6 @@ import {
   View,
   Button,
   FlatList,
-  Text,
 } from 'react-native';
 import firebase from '../config/config';
 import styles from './Styles';

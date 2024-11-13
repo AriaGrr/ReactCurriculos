@@ -1,22 +1,8 @@
 import * as React from 'react';
-// import {
-//   TextInput,
-//   Text,
-//   View,
-//   Button,
-//   TouchableOpacity,
-//   StyleSheet,
-//   TouchableHighlight,
-// } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; //novas
-// import {createTabNavigator} from '@react-navigation/tabs'; //novas
-// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createStackNavigator } from '@react-navigation/stack'; //novas
-// import { Card, Paragraph, Title } from 'react-native-paper';
-// import firebase from './config/config';
+import { createStackNavigator } from '@react-navigation/stack'; 
 // import styles from './components/Styles';
 import Login from './components/Login';
 import Cadastro from './components/Cadastro';
@@ -27,8 +13,6 @@ import UserCard from './components/Card';
 import CardEdit from './components/CardEditavel';
 
 const Tab = createBottomTabNavigator();
-// const Tab = createMaterialTopTabNavigator();
-
 const Stack = createStackNavigator();
 
 // Aqui vai mostrar todos os curriculos cadastrados, e a pessoa poderá selecionar um para olhar mais detalhes. E vai ter a opção de logar e pesquisar, e na opção de login tera a opção de cadastrar.
@@ -130,7 +114,7 @@ class Logado extends React.Component {
 }
 
 class App extends React.Component {
-  //stack e stack navigator e as telas a serem apresentadas
+  // stack e stack navigator e as telas a serem apresentadas
   render() {
     return (
       <NavigationContainer>
@@ -180,4 +164,5 @@ class App extends React.Component {
     );
   }
 }
+
 export default App;
