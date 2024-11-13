@@ -48,7 +48,7 @@ class Buscar extends React.Component {
             onChangeText={this.handleSearch}
             value={searchText}
             />
-        <Button title="Buscar" onPress={() => this.buscar()} />
+        
         <View style={styles.container}>
         <FlatList
           data={filtrados}
