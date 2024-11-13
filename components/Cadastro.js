@@ -3,9 +3,11 @@ import {
   View,
   TextInput,
   Button,
+  Text,
 } from 'react-native';
 import firebase from '../config/config';
 import styles from './Styles';
+import * as Haptics from 'expo-haptics';
 
 class Cadastro extends React.Component {
   constructor(props) {
@@ -22,6 +24,7 @@ salvar() {
     userRef.once('value', (snapshot) => {
       if (snapshot.exists()) {
         // Usuário já existe
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)//faz vibrar
         alert(
           'Usuário já existe',
           'Por favor, escolha outro nome de usuário.'
@@ -32,7 +35,7 @@ salvar() {
           nome: this.nome,
           username: this.username,
           senha: this.senha,
-          foto: null,
+          foto: '',
           email: '',
           sobre: '',
           curso: '',

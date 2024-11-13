@@ -1,12 +1,10 @@
 import * as React from 'react';
 import {
   TextInput,
-  Text,
   View,
   Button,
-  StyleSheet,
-  TouchableHighlight,
   FlatList,
+  Text,
 } from 'react-native';
 import firebase from '../config/config';
 import styles from './Styles';
@@ -29,6 +27,7 @@ class Buscar extends React.Component {
         this.setState({ usuarios: Object.values(snapshot.val()) });
       });
   }
+
   handleSearch = (text) => {
     this.setState({ searchText: text });
   };
@@ -36,7 +35,7 @@ class Buscar extends React.Component {
   render() {
     const { usuarios, searchText } = this.state;
 
-    const filteredUsers = usuarios.filter((user) =>
+    const filtrados = usuarios.filter((user) =>
       user.nome.toLowerCase().includes(searchText.toLowerCase())
     );
 
@@ -50,7 +49,7 @@ class Buscar extends React.Component {
         <Button title="Buscar" onPress={() => this.buscar()} />
         <View style={styles.container}>
         <FlatList
-          data={filteredUsers}
+          data={filtrados}
           renderItem={({ item }) => <UserCard user={item} />}
           keyExtractor={(item) => item.id}
         />

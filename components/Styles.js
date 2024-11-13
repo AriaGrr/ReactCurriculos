@@ -4,43 +4,6 @@ import {
 } from 'react-native';
 
 const styles = StyleSheet.create({
-  // button: {
-  //   backgroundColor: '#f2f2f2', 
-  //   borderRadius: 5, 
-  //   borderWidth: 3,
-  //   borderColor: '#333', 
-  //   padding: 15,
-  //   width: '80%',
-  //   marginBottom: 30, 
-  // },
-  // buttonText: {
-  //   textAlign: 'center',
-  //   color: '#333',
-  //   fontSize: 16, 
-  // },
-  //   txtBotao: {
-  //   color: "black",
-  //   fontSize: 25,
-  //   alignSelf: "center"
-  // },
-  // botao: {
-  //   height: 50,
-  //   borderWidth: 1,
-  //   borderColor: 'gray',
-  //   backgroundColor: "cyan",
-  //   margin: 10,
-  //   borderRadius: 8,
-  //   padding: 5,
-  // },
-  // input: {
-  //   height: 50,
-  //   padding: 5,
-  //   fontSize: 25,
-  //   borderColor: 'gray',
-  //   borderWidth: 1,
-  //   margin: 10,
-  //   borderRadius: 8
-  // },
     container: {
     flex: 1,
     backgroundColor: '#f2f2f2', // Fundo escuro
@@ -70,6 +33,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 5,
     alignItems: 'center',
+    marginTop: 10,
   },
   buttonText: {
     color: 'black',
@@ -89,19 +53,8 @@ const styles = StyleSheet.create({
   icon: {
     color: '#fff',
   },
-  // line: {
-  //   borderBottomWidth: 1,
-  //   borderColor: '#ccc',
-  //   padding: 10,
-  // },
-  // selectedLine: {
-  //   backgroundColor: '#f0f0f0',
-  // },
   selected: {
     textDecorationLine: 'underline',
-    // borderBottomWidth: 2,
-    // borderBottomRightRadius: 1,
-    // borderColor: 'black',
     marginBottom: 10,
   },
 });

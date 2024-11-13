@@ -1,72 +1,17 @@
 import React, { useState } from 'react';
-import {
-  View,
-  TextInput,
-  Button,
-  Alert,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-// import auth from '@react-native-firebase/auth';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { View, TextInput, Button, Text, TouchableOpacity } from 'react-native';
 import firebase from '../config/config';
 import styles from './Styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Cadastro from './Cadastro';
+import * as Haptics from 'expo-haptics';
 
-// const auth = getAuth();
-// signInWithEmailAndPassword(auth, email, password)
-//   .then((userCredential) => {
-//     // Signed in
-//     const user = userCredential.user;
-//     // ...
-//   })
-//   .catch((error) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//   });
-
-// const
-//  Login = () => {
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-
-//   const handleLogin = async () => {
-//     try {
-//       await auth().signInWithEmailAndPassword(email, password);
-
-//       // Successful login, navigate to the desired screen
-//       console.log('User logged in successfully!');
-//       // Replace 'HomeScreen' with your desired screen name
-//       this.props.navigation.navigate('HomeScreen');
-//     } catch (error) {
-//       console.error(error);
-//       Alert.alert('Login Failed', error.message);
-//     }
-//   };
-
-//   return (
-//     <View>
-//       <TextInput
-//         placeholder="Email"
-//         onChangeText={(text) => setEmail(text)}
-//       />
-//       <TextInput
-//         placeholder="Password"
-//         secureTextEntry
-//         onChangeText={(text)
-//  => setPassword(text)}
-//       />
-//       <Button
-//  title="Login" onPress={handleLogin} />
-//     </View>
-//   );
-// };
 // Aqui vai ser feito o login, e o cadastro. Porém será exibido todos os curriculos e a pessoa poderá selecionar para logar e na aba de login terá a opção de cadastro.
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      usuario: undefined,
+      username: undefined,
       senha: undefined,
     };
   }
@@ -76,56 +21,52 @@ class Login extends React.Component {
       <View style={styles.container}>
         <TextInput
           style={styles.input}
-          placeholder="E-mail"
-          onChangeText={(texto) => this.setState({ usuario: texto })}>
-        </TextInput>
+          placeholder="Username"
+          onChangeText={(texto) =>
+            this.setState({ username: texto })
+          }></TextInput>
         <TextInput
           style={styles.input}
           placeholder="Senha"
-          onChangeText={(texto) =>
-    this.setState({ senha: texto })
-  }>
-        </TextInput>
+          secureTextEntry={true}
+          onChangeText={(texto) => this.setState({ senha: texto })}></TextInput>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Cadastro')}>
           <Text style={styles.selected}> Cadastrar</Text>
         </TouchableOpacity>
-        <Button style={styles.button} title="Logar" onPress={() => this.ler()}></Button>
+        <Button
+          style={styles.button}
+          title="Logar"
+          onPress={() => this.logar()}></Button>
       </View>
     );
   }
 
-  // Mudar o assyncStorage para o firebase
-  async ler() {
-    try {
-      let senha = await AsyncStorage.getItem(this.state.usuario); //tentando pegar oq ta no usuario (to no login ent eh a senha)
-      if (senha != null) {
-        if (senha == this.state.senha) {
-          alert('Logado!!!');
+  async logar() {
+    const userRef = firebase
+      .database()
+      .ref('usuarios')
+      .orderByChild('username')
+      .equalTo(this.state.username);
+    await userRef.once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        const user = snapshot.val();
+        // Verifica se a senha é válida
+        if (user[Object.keys(user)[0]].senha === this.state.senha) {
+          // Login bem-sucedido
+          console.log('Usuário logado com sucesso!');
+            AsyncStorage.setItem('username',this.state.username);
           this.props.navigation.navigate('Logado');
         } else {
-          alert('Senha Incorreta!');
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)//faz vibrar
+          alert('Senha incorreta');
         }
       } else {
-        alert('Usuário não foi encontrado!');
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)//faz vibrar
+        alert('Usuário não encontrado');
       }
-    } catch (erro) {
-      console.log(erro);
-    }
-  } //tudo que ta embaixo continua a ser executado independente do ler, se fosse await espera acontecer o wait pro de baixo ocorrer
+    });
+  }
 }
-
-// <TouchableOpacity style={styles.datePickerButton} onPress={showDatePicker}>
-//     <Text > Cadastrar</Text>
-//   </TouchableOpacity>
-
-// <Text>{' Usuário*'}</Text>
-// <TextInput
-//   onChangeText={(texto) =>
-//     this.setState({ usuario: texto })
-//   }></TextInput>
-// <Text>{' Senha*'}</Text>
-// <TextInput
-//   onChangeText={(texto) => this.setState({ senha: texto })}></TextInput>
 
 export default Login;

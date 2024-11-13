@@ -1,33 +1,51 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Image } from 'react-native';
 
-// Mudar pro botão passar pra um outro card separado com todas as informações do usuario disponiveis pra consulta
 const UserCard = ({ user }) => {
   return (
     <View style={styles.card}>
-    <Image 
-      source={user.foto ? { uri: user.foto } : require('../assets/imagemIndisponivel.jpg')}
-        style={styles.imagem}
-    />
-      <Text style={styles.cardTitle}>{user.nome}</Text>
-      <Text style={styles.cardText}>Curso: {user.curso}</Text>
-      <Button title="Ver Curriculo" onPress={() => navigation.navigate('Curriculo', { userId: item.id })} />
+      <View style={styles.cardRow}>
+        <Image
+          source={
+            user.foto
+              ? { uri: user.foto }
+              : require('../assets/imagemIndisponivel.jpg')
+          }
+          style={styles.imagem}
+        />
+        <View style={styles.detailsContainer}>
+          <Text style={styles.cardTitle}>{user.nome}</Text>
+          <Text style={styles.cardText}>Interesse: {user.interesse}</Text>
+          <Text style={styles.cardText}>E-mail: {user.email}</Text>
+          <Text style={styles.cardText}>Curso: {user.curso}</Text>
+          <Text style={styles.cardText}>Semestre: {user.semestre}</Text>
+          <Text style={styles.cardText}>Sobre: {user.sobre}</Text>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  imagem:{ 
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
   card: {
     padding: 10,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
     marginBottom: 10,
+  },
+  cardRow: {
+    flexDirection: 'row', // Horizontalmente
+    alignItems: 'center', // Verticalmente
+  },
+  imagem: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginRight: 10, // Margem espaçamento
+  },
+  detailsContainer: {
+    flex: 1, // Deixa espaço
   },
   cardTitle: {
     fontWeight: 'bold',
@@ -36,6 +54,8 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 14,
   },
+
 });
 
 export default UserCard;
+
