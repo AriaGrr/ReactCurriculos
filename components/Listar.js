@@ -12,6 +12,7 @@ class Listar extends React.Component {
     };
   }
 
+  // Busca todos os usuários cadastrados no banco de dados
   componentDidMount() {
     firebase
       .database()

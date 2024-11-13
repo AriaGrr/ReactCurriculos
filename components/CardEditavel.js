@@ -18,7 +18,6 @@ import * as Haptics from 'expo-haptics';
 const CardEdit = ({ user, navigation }) => {
   const [selectedField, setSelectedField] = useState('');
   const [newValue, setNewValue] = useState('');
-
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   // Campos
   const [fields, setFields] = useState([]);
@@ -60,18 +59,15 @@ const CardEdit = ({ user, navigation }) => {
 
   const handleLogout = async () => {
     try {
-      // Clear AsyncStorage data
+      // Limpa AsyncStorage
       await AsyncStorage.removeItem('username');
       await AsyncStorage.removeItem('user');
-
-      // Firebase sign-out (if applicable)
-      await firebase.auth().signOut();
 
       setIsLogoutModalVisible(false);
       navigation.navigate('Principal');
     } catch (error) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error); //faz vibrar
-      console.error('Error logging out:', error);
+      console.error('Erro ao deslogar:', error);
     }
   };
 

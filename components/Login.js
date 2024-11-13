@@ -42,6 +42,7 @@ class Login extends React.Component {
     );
   }
 
+  // Função para logar
   async logar() {
     const userRef = firebase
       .database()

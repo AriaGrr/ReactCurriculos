@@ -15,6 +15,7 @@ class Alterar extends React.Component {
     };
   }
 
+// Buscar o ID do usuário pelo username
   async findUserIdByUsername(username) {
     try {
       const usersRef = firebase.database().ref('usuarios');
@@ -35,12 +36,13 @@ class Alterar extends React.Component {
     }
   }
 
+  // Buscar o usuário atual
   componentDidMount() {
     const fetchUser = async () => {
       try {
         const username = await AsyncStorage.getItem('username');
         const userId = await this.findUserIdByUsername(username);
-        this.setState({ userId }); // Store userId in state
+        this.setState({ userId }); // Colocar o ID no estado
 
         const userRef = firebase.database().ref(`usuarios/${userId}`);
         userRef.on('value', (snapshot) => {
@@ -59,6 +61,7 @@ class Alterar extends React.Component {
 
     fetchUser();
   }
+
   // Limpar o listener para evitar vazamentos de memória
   componentWillUnmount() {
     const { userId } = this.state;

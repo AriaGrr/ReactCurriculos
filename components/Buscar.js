@@ -19,6 +19,7 @@ class Buscar extends React.Component {
     };
   }
 
+  // Busca todos os usuários cadastrados no banco de dados
   componentDidMount() {
     firebase
       .database()
@@ -28,6 +29,7 @@ class Buscar extends React.Component {
       });
   }
 
+  // Busca os usuários que contém o texto digitado no nome
   handleSearch = (text) => {
     this.setState({ searchText: text });
   };
@@ -35,6 +37,7 @@ class Buscar extends React.Component {
   render() {
     const { usuarios, searchText } = this.state;
 
+    // Filtra os usuários que contém o texto digitado no nome
     const filtrados = usuarios.filter((user) =>
       user.nome.toLowerCase().includes(searchText.toLowerCase())
     );
