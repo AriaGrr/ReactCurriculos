@@ -8,45 +8,45 @@ import {
   Image,
   TextInput,
   ActivityIndicator,
-  Modal
+  Modal,
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebase from '../config/config';
 import * as Haptics from 'expo-haptics';
 
-const CardEdit = ({ user, navigation}) => {
+const CardEdit = ({ user, navigation }) => {
   const [selectedField, setSelectedField] = useState('');
   const [newValue, setNewValue] = useState('');
 
-const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   // Campos
   const [fields, setFields] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
- useEffect(() => {
-  const fetchFields = async () => {
-    try {
-      // Lógica para buscar os campos, se necessário
-      const fetchedFields = [
-        'nome',
-        'interesse',
-        'curso',
-        'semestre',
-        'sobre',
-        'email',
-        'senha',
-      ];
-      setFields(fetchedFields);
-      setIsLoading(false);
-    } catch (error) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error); //faz vibrar
-      console.error('Erro ao buscar campos:', error);
-    }
-  };
+  useEffect(() => {
+    const fetchFields = async () => {
+      try {
+        // Lógica para buscar os campos, se necessário
+        const fetchedFields = [
+          'nome',
+          'interesse',
+          'curso',
+          'semestre',
+          'sobre',
+          'email',
+          'senha',
+        ];
+        setFields(fetchedFields);
+        setIsLoading(false);
+      } catch (error) {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error); //faz vibrar
+        console.error('Erro ao buscar campos:', error);
+      }
+    };
 
-  fetchFields();
-}, []);
+    fetchFields();
+  }, []);
 
   // Seleção de campo
   const handleFieldChange = (itemValue) => {
@@ -57,23 +57,23 @@ const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const handleValueChange = (text) => {
     setNewValue(text);
   };
-  
-const handleLogout = async () => {
-  try {
-    // Clear AsyncStorage data
-    await AsyncStorage.removeItem('username');
-    await AsyncStorage.removeItem('user');
 
-    // Firebase sign-out (if applicable)
-    await firebase.auth().signOut();
+  const handleLogout = async () => {
+    try {
+      // Clear AsyncStorage data
+      await AsyncStorage.removeItem('username');
+      await AsyncStorage.removeItem('user');
 
-    setIsLogoutModalVisible(false);
-    navigation.navigate('Principal');
-  } catch (error) {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error); //faz vibrar
-    console.error('Error logging out:', error);
-  }
-};
+      // Firebase sign-out (if applicable)
+      await firebase.auth().signOut();
+
+      setIsLogoutModalVisible(false);
+      navigation.navigate('Principal');
+    } catch (error) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error); //faz vibrar
+      console.error('Error logging out:', error);
+    }
+  };
 
   // Achar o ID único
   const findUserIdByUsername = async (username) => {
@@ -137,21 +137,24 @@ const handleLogout = async () => {
 
   return (
     <View style={styles.card}>
-            <Button title="Logout" onPress={() => setIsLogoutModalVisible(true)} style={styles.logoutButton} />
-        <Modal
-  animationType="fade"
-  transparent={true}
-  visible={isLogoutModalVisible}
-  onRequestClose={() => setIsLogoutModalVisible(false)}
->
-  <View style={styles.logoutModalContainer}>
-    <Text style={styles.logoutModalText}>Tem certeza que deseja sair?</Text>
-    <View style={styles.logoutModalButtons}>
-      <Button title="Cancelar" onPress={() => setIsLogoutModalVisible(false)} />
-      <Button title="Sair" onPress={handleLogout} color="red" />
-    </View>
-  </View>
-</Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isLogoutModalVisible}
+        onRequestClose={() => setIsLogoutModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <Text style={styles.cardText}>
+            Tem certeza que deseja sair?
+          </Text>
+          <View>
+            <Button
+              title="Cancelar"
+              onPress={() => setIsLogoutModalVisible(false)}
+            />
+            <Button title="Sair" onPress={handleLogout} color="red"/>
+          </View>
+        </View>
+      </Modal>
       <Image
         source={
           user.foto
@@ -177,15 +180,18 @@ const handleLogout = async () => {
           style={styles.button}
         />
         <View style={styles.editSection}>
-          {isLoading ? <ActivityIndicator /> : (
-      <Picker selectedValue={selectedField}
-            onValueChange={handleFieldChange}
-            style={styles.picker}>
-        {fields.map((field) => (
-          <Picker.Item label={field} value={field} key={field} />
-        ))}
-      </Picker>
-    )}
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <Picker
+              selectedValue={selectedField}
+              onValueChange={handleFieldChange}
+              style={styles.picker}>
+              {fields.map((field) => (
+                <Picker.Item label={field} value={field} key={field} />
+              ))}
+            </Picker>
+          )}
           <TextInput
             style={styles.textInput}
             value={newValue}
@@ -197,6 +203,11 @@ const handleLogout = async () => {
           title="Editar campo"
           onPress={handleSave}
           style={styles.button}
+        />
+        <Button
+          title="Logout"
+          onPress={() => setIsLogoutModalVisible(true)}
+          color="red"
         />
       </View>
     </View>
@@ -253,14 +264,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'blue',
   },
-  logoutButton: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    backgroundColor: 'blue',
-    position: 'absolute', 
-    top: 10, 
-    right: 10
+  modalContainer: {
+    justifyContent: 'flex-end', 
+    margin: 0, 
   },
 });
 
