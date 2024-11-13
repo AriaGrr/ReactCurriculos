@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { View, TextInput, Button, Text, TouchableOpacity } from 'react-native';
 import firebase from '../config/config';
 import styles from './Styles';
